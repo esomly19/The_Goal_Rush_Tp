@@ -21,7 +21,7 @@ const con = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "root",
-  database: "goalrush"
+  database: "goal_rush"
 });
 
 con.connect(function (err) {
@@ -30,6 +30,21 @@ con.connect(function (err) {
   con.query("SELECT * FROM bets", function (err, result) {
     if (err) throw err;
     console.log(result);
+  });
+  con.query("SELECT * from parties inner join bets on parties.id = bets.party_id ", function (err, result) {
+    for (let i = 0; i < result.length; i++) {
+      id = result[i].home_team
+      ida = result[i].away_team
+      console.log(id)
+      con.query(`SELECT * from teams where teams.id='${id}' `, function (err, result) {
+        console.log(result);
+      });
+      con.query(`SELECT * from teams where teams.id='${ida}' `, function (err, result) {
+        console.log(result);
+      });
+    }
+
+
   });
 });
 
@@ -44,7 +59,14 @@ app.get('/matchs', (req, res) => {
     res.send(result);
     console.log(result);
   });
-})
+});
+app.get('/match', (req, res) => {
+  con.query("select * from parties inner join bets on parties.id = bets.party_id  inner join teams on partieshome_team = teamsname", function (err, result) {
+    res.send(result);
+    console.log(result);
+  });
+
+});
 
 
 // Listen on enviroment port or 5000

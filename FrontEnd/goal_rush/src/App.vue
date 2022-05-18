@@ -20,8 +20,23 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
-  name: 'App'
+  name: 'App',
+  methods: {
+    recupevents () {
+      axios.get('http://localhost:3000/matchs/').then(res => {
+        console.log('Données' + res.data)
+      })
+        .catch(err => {
+          console.log('CASSE')
+          console.log(err)
+        })
+    }},
+  mounted () {
+    this.recupevents()
+  },
+  computed: {}
 }
 </script>
 

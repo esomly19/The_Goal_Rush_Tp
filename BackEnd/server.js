@@ -37,7 +37,15 @@ app.get('/', (req, res) => {
   con.query("SELECT * FROM bets", function (err, result) {
     res.send(result);
   });
-
 })
+
+app.get('/matchs', (req, res) => {
+  con.query("SELECT teams.name FROM parties inner join teams on parties.home_team = teams.id", function (err, result) {
+    res.send(result);
+    console.log(result);
+  });
+})
+
+
 // Listen on enviroment port or 5000
-app.listen(port, () => console.log('Listening on port ${port}'))
+app.listen(port, () => console.log(`Listening on port ${port}`))

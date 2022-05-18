@@ -1,14 +1,43 @@
-const http = require('http');
+const express = require('express')
+const bodyParser = require('body-parser')
+const mysql = require('mysql')
 
-const hostname = '127.0.0.1';
-const port = 3000;
+const app = express()
+const port = process.env.PORT || 5000;
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello World');
+// Parsing middleware
+// Parse application/x-www-form-urlencoded
+// app.use(bodyParser.urlencoded({ extended: false })); // Remove 
+app.use(express.urlencoded({ extended: true })); // New
+// Parse application/json
+// app.use(bodyParser.json()); // Remove
+app.use(express.json()); // New
+
+// MySQL Code goes here
+
+
+
+const con = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "root",
+  database: "goalrush"
 });
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+con.connect(function (err) {
+  if (err) throw err;
+  console.log("Connecté à la base de données MySQL!");
+  con.query("SELECT * FROM bets", function (err, result) {
+    if (err) throw err;
+    console.log(result);
+  });
 });
+
+app.get('/', (req, res) => {
+  con.query("SELECT * FROM bets", function (err, result) {
+    res.send(result);
+  });
+
+})
+// Listen on enviroment port or 5000
+app.listen(port, () => console.log('Listening on port ${port}'))

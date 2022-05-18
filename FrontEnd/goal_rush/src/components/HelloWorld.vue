@@ -1,6 +1,25 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+<b-container class="bv-example-row">
+  <b-row>
+    <b-col id="menu_gauche">1 of 3</b-col>
+    <b-col cols="10"><carousel-3d>
+  <slide :index="0">
+    Match 1
+  </slide>
+  <slide :index="1">
+    Match 2
+  </slide>
+    <slide :index="2">
+    Match 3
+  </slide>
+  <slide :index="3">
+    Match4
+  </slide>
+</carousel-3d></b-col>
+<b-col ></b-col>
+  </b-row>
+</b-container>
 
   </div>
 </template>
@@ -32,4 +51,10 @@ li {
 a {
   color: #42b983;
 }
+#menu_gauche{
+width:100%;
+background-color: black;}
+
+.bv-example-row{
+width:100%;}
 </style>
